@@ -50,7 +50,7 @@ public class Player : MonoBehaviour
         // Se crea vector basado en la entrada del jugador --> y se normaliza (asi magnitud uno)
         Vector2 moveDirection = new Vector2(moveX, moveY).normalized;
 
-        
+   
         // Detectar doble pulsación para dash en el eje horizontal
         if (Input.GetButtonDown("Horizontal"))
         {
@@ -87,7 +87,7 @@ public class Player : MonoBehaviour
             }
             lastVerticalInputTime = Time.time;
         }
-
+         
 
         // Si hay tiempo de dash restante, mover al jugador en esa dirección
         if (dashTimeLeft > 0)
