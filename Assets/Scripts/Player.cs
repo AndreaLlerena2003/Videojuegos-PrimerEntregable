@@ -18,10 +18,20 @@ public class Player : MonoBehaviour
     private Camera cam; // camara principal
     private float halfWidth; // calculamos ancho y altura para manejar q no salga de la camara
     private float halfHeight;
+<<<<<<< Updated upstream
     private float dashTimeLeft = 0f; // Tiempo restante del dash
     private Vector2 dashDirection; // Dirección del dash
     private float lastHorizontalInputTime = -1f; // Tiempo de la última pulsación horizontal
     private float lastVerticalInputTime = -1f; // Tiempo de la última pulsación vertical
+=======
+
+    // Vidas del jugador
+    public int vidas = 5; // Inicialmente tiene 3 vidas
+
+    // Referencia al panel de Game Over
+    public GameObject gameOverPanel;
+
+>>>>>>> Stashed changes
     void Start()
     {
         cam = Camera.main; // se asigna la camara principal
@@ -33,12 +43,17 @@ public class Player : MonoBehaviour
             halfWidth = spriteRenderer.bounds.extents.x;
             halfHeight = spriteRenderer.bounds.extents.y;
         }
+<<<<<<< Updated upstream
         // lo colocamos como falso
         trailRenderer = GetComponent<TrailRenderer>();
         if (trailRenderer != null)
         {
             trailRenderer.enabled = false;
         }
+=======
+
+        gameOverPanel.SetActive(false);
+>>>>>>> Stashed changes
     }
 
     void Update()
@@ -128,5 +143,43 @@ public class Player : MonoBehaviour
         clampedPosition.y = Mathf.Clamp(clampedPosition.y, -screenBounds.y + halfHeight, screenBounds.y - halfHeight);
 
         transform.position = clampedPosition;
+    }
+
+    // Método para detectar colisiones con las figuras (enemigos)
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        // Si el objeto con el que colisiona tiene la etiqueta "Enemigo"
+        if (collision.gameObject.tag == "Enemigo")
+        {
+            // Restar una vida
+            vidas--;
+
+            // Si las vidas llegan a 0, el jugador pierde
+            if (vidas <= 0)
+            {
+                // Lógica de derrota (puedes agregar efectos, sonidos, etc.)
+                Debug.Log("Has perdido todas las vidas.");
+
+                if (gameOverPanel != null)
+                {
+                    gameOverPanel.SetActive(true); // Activar el panel de Game Over
+                }
+                /// PANTALLA DE MUERTE
+                Destroy(gameObject);
+                // Aquí podrías añadir la lógica de Game Over o reinicio del nivel
+            }
+            else
+            {
+                // EXPLOSION
+                transform.position = Vector3.zero;
+            }
+        }
+    }
+
+    // Mostrar el contador de vidas en la pantalla con GUI
+    void OnGUI()
+    {
+        // Mostrar las vidas restantes en la esquina superior izquierda
+        GUI.Label(new Rect(10, 10, 100, 20), "Vidas: " + vidas);
     }
 }
