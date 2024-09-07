@@ -18,12 +18,10 @@ public class Player : MonoBehaviour
     private Camera cam; // camara principal
     private float halfWidth; // calculamos ancho y altura para manejar q no salga de la camara
     private float halfHeight;
-<<<<<<< Updated upstream
     private float dashTimeLeft = 0f; // Tiempo restante del dash
     private Vector2 dashDirection; // Dirección del dash
     private float lastHorizontalInputTime = -1f; // Tiempo de la última pulsación horizontal
     private float lastVerticalInputTime = -1f; // Tiempo de la última pulsación vertical
-=======
 
     // Vidas del jugador
     public int vidas = 5; // Inicialmente tiene 3 vidas
@@ -31,7 +29,6 @@ public class Player : MonoBehaviour
     // Referencia al panel de Game Over
     public GameObject gameOverPanel;
 
->>>>>>> Stashed changes
     void Start()
     {
         cam = Camera.main; // se asigna la camara principal
@@ -43,17 +40,14 @@ public class Player : MonoBehaviour
             halfWidth = spriteRenderer.bounds.extents.x;
             halfHeight = spriteRenderer.bounds.extents.y;
         }
-<<<<<<< Updated upstream
         // lo colocamos como falso
         trailRenderer = GetComponent<TrailRenderer>();
         if (trailRenderer != null)
         {
             trailRenderer.enabled = false;
         }
-=======
 
         gameOverPanel.SetActive(false);
->>>>>>> Stashed changes
     }
 
     void Update()

@@ -157,14 +157,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
-<<<<<<< Updated upstream
   dashSpeed: 10
   dashDuration: 0.2
   doubleTapTime: 0.3
-=======
   vidas: 5
   gameOverPanel: {fileID: 1365246247}
->>>>>>> Stashed changes
 --- !u!60 &314426107
 PolygonCollider2D:
   m_ObjectHideFlags: 0
