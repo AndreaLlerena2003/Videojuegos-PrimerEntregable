@@ -4,31 +4,31 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    public List<EnemyType> enemyTypes; //objeto tipo lista de enemigos
-    public float spawnInterval = 2f; //intervalo de spawn
-    private Camera cam;//camara
+    public List<EnemyType> enemyTypes; // Lista de tipos de enemigos
+    public float spawnInterval = 2f; // Intervalo de aparición
+    private Camera cam; // Cámara principal
 
     void Start()
     {
-        cam = Camera.main;//camara principal
-        StartCoroutine(SpawnEnemies()); //generacion de enemigos segun intervalos
+        cam = Camera.main; // Obtén la cámara principal
+        StartCoroutine(SpawnEnemies()); // Inicia la corrutina de generación de enemigos
     }
 
     IEnumerator SpawnEnemies()
     {
         while (true)
         {
-            SpawnEnemy();//creacion de enemigo
-            yield return new WaitForSeconds(spawnInterval);
+            SpawnEnemy(); // Genera un enemigo
+            yield return new WaitForSeconds(spawnInterval); // Espera antes de generar el siguiente enemigo
         }
     }
 
     void SpawnEnemy()
     {
-        int randomIndex = Random.Range(0, enemyTypes.Count); //se seleciona un tipo de enemigo random de la lista
+        int randomIndex = UnityEngine.Random.Range(0, enemyTypes.Count); // Selecciona un tipo de enemigo aleatorio
         EnemyType selectedEnemyType = enemyTypes[randomIndex];
 
-        // Obtener el tamaño del Collider2D para validar el spawn -- para asegurar que el enemigo no se genere fuera de los límites visibles de la pantalla
+        // Obtener el tamaño del Collider2D para validar el spawn
         float widthInViewport = 0;
         float heightInViewport = 0;
         Collider2D baseCollider = selectedEnemyType.enemyObject.GetComponent<Collider2D>();
@@ -46,6 +46,7 @@ public class EnemySpawner : MonoBehaviour
             newEnemy.GetComponent<SpriteRenderer>().color = GetRandomColor();
 
             EnemyMovement movement = newEnemy.AddComponent<EnemyMovement>();
+            Debug.Log("Speed: " + selectedEnemyType.speed);
             movement.speed = selectedEnemyType.speed;
         }
     }
@@ -98,9 +99,15 @@ public class EnemySpawner : MonoBehaviour
 
     Vector2 GetRandomSpawnPosition(float widthInViewport, float heightInViewport)
     {
-        // Ajuste del rango para garantizar que el enemigo se genere completamente dentro de la pantalla
-        float screenX = Random.Range(widthInViewport / 2f, 1 - widthInViewport / 2f);
-        float screenY = Random.Range(heightInViewport / 2f, 1 - heightInViewport / 2f);
+        // Ajustar el rango para que el enemigo se genere completamente dentro de la pantalla
+        float minX = widthInViewport / 2f;
+        float maxX = 1 - widthInViewport / 2f;
+        float minY = heightInViewport / 2f;
+        float maxY = 1 - heightInViewport / 2f;
+
+        float screenX = UnityEngine.Random.Range(minX, maxX);
+        float screenY = UnityEngine.Random.Range(minY, maxY);
+
         return cam.ViewportToWorldPoint(new Vector2(screenX, screenY));
     }
 
@@ -114,6 +121,6 @@ public class EnemySpawner : MonoBehaviour
 
     Color GetRandomColor()
     {
-        return new Color(Random.value, Random.value, Random.value);
+        return new Color(UnityEngine.Random.value, UnityEngine.Random.value, UnityEngine.Random.value);
     }
 }

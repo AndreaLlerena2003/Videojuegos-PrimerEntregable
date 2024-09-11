@@ -6,23 +6,23 @@ public class EnemyMovement : MonoBehaviour
     [SerializeField]
     public float rotationSpeed = 1f;
 
-    private Vector2 direction; //direcci髇
+    private Vector2 direction; //direcci贸n
     //private Collider2D collider2D; //collider q tiene el enemigo
 
 
     void Start()
     {
-        // se inicializa la direcci髇 con un vector aleatorio normalizado dentro de un c韗culo unitario
+        // se inicializa la direcci贸n con un vector aleatorio normalizado dentro de un c铆rculo unitario
         direction = Random.insideUnitCircle.normalized;
     }
 
     void Update()
     {
-        //mover el enemigo en la direcci髇 actual multiplicada por la velocidad y el tiempo transcurrido desde el 鷏timo frame
+        //mover el enemigo en la direcci贸n actual multiplicada por la velocidad y el tiempo transcurrido desde el 煤ltimo frame
         // Calcular el nuevo desplazamiento
         Vector3 movement = new Vector3(direction.x, direction.y, 0) * speed * Time.deltaTime;
 
-        // Actualizar la posici髇 sumando el vector de movimiento
+        // Actualizar la posici贸n sumando el vector de movimiento
         transform.position += movement;
 
         // Rota el enemigo
@@ -34,38 +34,38 @@ public class EnemyMovement : MonoBehaviour
     // Rebota realista con todo
     /*void OnCollisionEnter2D(Collision2D collision)
     {        
-        // Obtener la normal de la colisi髇
+        // Obtener la normal de la colisi贸n
         Vector2 normal = collision.contacts[0].normal;
 
-        // Reflejar la direcci髇 actual del movimiento en base a la normal de la colisi髇
+        // Reflejar la direcci贸n actual del movimiento en base a la normal de la colisi贸n
         direction = Vector2.Reflect(direction, normal);
         
         
     }*/
 
-    // Rebota realista con las paredes, pero se invierte con lo dem醩
+    // Rebota realista con las paredes, pero se invierte con lo dem谩s
     /*void OnCollisionEnter2D(Collision2D collision)
     {
         // Verificar si el objeto con el que se colisiona es una pared
         if (collision.gameObject.CompareTag("Limit"))
         {
-            // Obtener la normal de la colisi髇
+            // Obtener la normal de la colisi贸n
             Vector2 normal = collision.contacts[0].normal;
 
-            // Reflejar la direcci髇 actual del movimiento en base a la normal de la colisi髇
+            // Reflejar la direcci贸n actual del movimiento en base a la normal de la colisi贸n
             direction = Vector2.Reflect(direction, normal);
         }
         else
         {
-            // Invertir la direcci髇 si se colisiona con otro objeto no etiquetado como "Limit"
+            // Invertir la direcci贸n si se colisiona con otro objeto no etiquetado como "Limit"
             direction = -direction;
         }
     }*/
 
-    // Invierte la direcci髇 cuando rebota choca con alguien m醩
+    // Invierte la direcci贸n cuando rebota choca con alguien m谩s
     void OnCollisionEnter2D(Collision2D collision)
     {
-        // invertir la direcci髇 al colisionar con otro objeto --> para esos casos q choque con otro enemigo y asi no le de lag
+        // invertir la direcci贸n al colisionar con otro objeto --> para esos casos q choque con otro enemigo y asi no le de lag
         direction = -direction; // -> rebote
     }
 }
