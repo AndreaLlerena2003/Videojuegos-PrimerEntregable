@@ -7,22 +7,13 @@ public class EnemyMovement : MonoBehaviour
     public float rotationSpeed = 1f;
 
     private Vector2 direction; //dirección
-    private Collider2D collider2D; //collider q tiene el enemigo
-    private float colliderWidth; //ancho y alto de collider para manejo de rebote en bordes
-    private float colliderHeight;
+    //private Collider2D collider2D; //collider q tiene el enemigo
+
 
     void Start()
     {
         // se inicializa la dirección con un vector aleatorio normalizado dentro de un círculo unitario
         direction = Random.insideUnitCircle.normalized;
-
-        //obtenemos el collider del objeto
-        collider2D = GetComponent<Collider2D>();
-        if (collider2D != null)
-        {
-            colliderWidth = collider2D.bounds.size.x;
-            colliderHeight = collider2D.bounds.size.y;
-        }
     }
 
     void Update()
