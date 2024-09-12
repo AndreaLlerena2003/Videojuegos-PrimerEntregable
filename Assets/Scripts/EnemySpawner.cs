@@ -1,17 +1,17 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
     public List<EnemyType> enemyTypes; // Lista de tipos de enemigos
-    public float spawnInterval = 2f; // Intervalo de aparición
-    private Camera cam; // Cámara principal
+    public float spawnInterval = 2f; // Intervalo de apariciï¿½n
+    private Camera cam; // Cï¿½mara principal
 
     void Start()
     {
-        cam = Camera.main; // Obtén la cámara principal
-        StartCoroutine(SpawnEnemies()); // Inicia la corrutina de generación de enemigos
+        cam = Camera.main; // Obtï¿½n la cï¿½mara principal
+        StartCoroutine(SpawnEnemies()); // Inicia la corrutina de generaciï¿½n de enemigos
     }
 
     IEnumerator SpawnEnemies()
@@ -28,7 +28,7 @@ public class EnemySpawner : MonoBehaviour
         int randomIndex = UnityEngine.Random.Range(0, enemyTypes.Count); // Selecciona un tipo de enemigo aleatorio
         EnemyType selectedEnemyType = enemyTypes[randomIndex];
 
-        // Obtener el tamaño del Collider2D para validar el spawn
+        // Obtener el tamaï¿½o del Collider2D para validar el spawn
         float widthInViewport = 0;
         float heightInViewport = 0;
         Collider2D baseCollider = selectedEnemyType.enemyObject.GetComponent<Collider2D>();
@@ -54,6 +54,7 @@ public class EnemySpawner : MonoBehaviour
     GameObject CreateEnemy(GameObject baseObject, Vector2 position)
     {
         GameObject enemy = new GameObject("Enemy");
+        enemy.tag = "Enemigo";
         SpriteRenderer spriteRenderer = enemy.AddComponent<SpriteRenderer>();
         spriteRenderer.sprite = baseObject.GetComponent<SpriteRenderer>().sprite;
         spriteRenderer.sortingOrder = 1;
@@ -93,7 +94,7 @@ public class EnemySpawner : MonoBehaviour
                 polygonCollider.offset = basePolygonCollider.offset;
             }
         }
-
+        
         return enemy;
     }
 
@@ -113,7 +114,7 @@ public class EnemySpawner : MonoBehaviour
 
     bool IsPositionOnScreen(Vector2 position, float widthInViewport, float heightInViewport)
     {
-        // Comprobar que el enemigo esté completamente dentro de los límites de la pantalla
+        // Comprobar que el enemigo estï¿½ completamente dentro de los lï¿½mites de la pantalla
         Vector3 viewportPoint = cam.WorldToViewportPoint(position);
         return viewportPoint.x >= widthInViewport / 2f && viewportPoint.x <= 1 - widthInViewport / 2f &&
                viewportPoint.y >= heightInViewport / 2f && viewportPoint.y <= 1 - heightInViewport / 2f;
@@ -123,4 +124,5 @@ public class EnemySpawner : MonoBehaviour
     {
         return new Color(UnityEngine.Random.value, UnityEngine.Random.value, UnityEngine.Random.value);
     }
+
 }
