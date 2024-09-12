@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class CameraBounds : MonoBehaviour
 {
-    public Camera mainCamera;
+    private Camera mainCamera;
     public GameObject topLimit;
     public GameObject bottomLimit;
     public GameObject leftLimit;
