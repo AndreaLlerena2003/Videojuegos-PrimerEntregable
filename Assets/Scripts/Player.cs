@@ -29,11 +29,12 @@ public class Player : MonoBehaviour
 
     // Referencia al panel de Game Over
     public GameObject gameOverPanel;
+    public UnityEngine.Quaternion originalRotation;
 
     void Start()
     {
         cam = Camera.main; // se asigna la camara principal
-
+        originalRotation = transform.rotation;
         // obtenemos dimensiones del sprinte para ver el tamaño de nuestro objeto y manejar q no salfa de pantalla
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
         if (spriteRenderer != null)
@@ -148,7 +149,10 @@ public class Player : MonoBehaviour
         {
             // Restar una vida
             vidas--;
+            //agregar congelamiento de enemigos
+            //enemy movement y enemu spawner
 
+            StartCoroutine(CongelarEnemigosYJugador(5f));
             // Actualiza el contador de vidas
             GameManager.Instance.UpdateLivesCount(vidas);
 
@@ -170,10 +174,36 @@ public class Player : MonoBehaviour
             {
                 // EXPLOSION
                 transform.position = Vector3.zero;
+                transform.rotation = originalRotation; 
             }
         }
     }
-
+    private IEnumerator CongelarEnemigosYJugador(float duracion)
+    {
+       
+        GameObject[] enemigos = GameObject.FindGameObjectsWithTag("Enemigo");
+        foreach (GameObject enemigo in enemigos)
+        {
+            if (enemigo.TryGetComponent<EnemyMovement>(out var movimiento))
+            {
+                movimiento.enabled = false; 
+            }
+        }
+        float originalMoveSpeed = moveSpeed;
+        float originalDashSpeed = dashSpeed;
+        moveSpeed = 0f; 
+        dashSpeed = 0f; 
+        yield return new WaitForSeconds(duracion);
+        foreach (GameObject enemigo in enemigos)
+        {
+            if (enemigo.TryGetComponent<EnemyMovement>(out var movimiento))
+            {
+                movimiento.enabled = true; 
+            }
+        }
+        moveSpeed = originalMoveSpeed;
+        dashSpeed = originalDashSpeed;
+    }
     // Mostrar el contador de vidas en la pantalla con GUI
     /*void OnGUI()
     {
