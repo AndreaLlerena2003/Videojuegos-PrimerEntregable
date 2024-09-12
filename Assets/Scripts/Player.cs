@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 
 public class Player : MonoBehaviour
@@ -14,7 +15,7 @@ public class Player : MonoBehaviour
     public float doubleTapTime = 0.3f; // Tiempo máximo entre dos pulsaciones para que se considere doble
 
     private Rigidbody2D rb; // referencia al Rigidbody2D
-    private Vector2 moveInput; // entrada del movimiento
+    private Vector2 moveDirection; // entrada del movimiento
     private Camera cam; // camara principal
     private float halfWidth; // calculamos ancho y altura para manejar q no salga de la camara
     private float halfHeight;
@@ -58,7 +59,7 @@ public class Player : MonoBehaviour
         float moveY = Input.GetAxis("Vertical");
 
         // Se crea vector basado en la entrada del jugador --> y se normaliza (asi magnitud uno)
-        Vector2 moveDirection = new Vector2(moveX, moveY).normalized;
+        moveDirection = new Vector2(moveX, moveY).normalized;
 
    
         // Detectar doble pulsación para dash en el eje horizontal
