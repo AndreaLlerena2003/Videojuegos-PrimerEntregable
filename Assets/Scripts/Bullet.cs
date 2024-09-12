@@ -26,9 +26,9 @@ public class Bullet : MonoBehaviour
             Destroy(gameObject);
 
             // Llamar al método para incrementar el contador en el GameManager
-            if (gameManager != null)
+            if (GameManager.Instance != null)
             {
-                gameManager.IncrementEnemyCount();
+                GameManager.Instance.IncrementEnemyCount();
             }
         }
         else
