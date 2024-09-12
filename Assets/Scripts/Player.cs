@@ -148,6 +148,9 @@ public class Player : MonoBehaviour
             // Restar una vida
             vidas--;
 
+            // Actualiza el contador de vidas
+            GameManager.Instance.UpdateLivesCount(vidas);
+
             // Si las vidas llegan a 0, el jugador pierde
             if (vidas <= 0)
             {
@@ -171,9 +174,9 @@ public class Player : MonoBehaviour
     }
 
     // Mostrar el contador de vidas en la pantalla con GUI
-    void OnGUI()
+    /*void OnGUI()
     {
         // Mostrar las vidas restantes en la esquina superior izquierda
         GUI.Label(new Rect(10, 10, 100, 20), "Vidas: " + vidas);
-    }
+    }*/
 }
