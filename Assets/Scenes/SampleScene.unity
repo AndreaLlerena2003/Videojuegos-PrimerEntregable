@@ -269,7 +269,7 @@ GameObject:
   - component: {fileID: 314426112}
   m_Layer: 0
   m_Name: CampioMundiProta
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -355,7 +355,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -668,6 +668,7 @@ GameObject:
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
   - component: {fileID: 519420030}
+  - component: {fileID: 519420033}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -793,6 +794,24 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &519420033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2df74ec103fdfe44497c9356433dc424, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainCamera: {fileID: 519420031}
+  topLimit: {fileID: 1761110731}
+  bottomLimit: {fileID: 82505863}
+  leftLimit: {fileID: 1106588613}
+  rightLimit: {fileID: 1522638008}
+  margin: 0.1
 --- !u!1 &638873126
 GameObject:
   m_ObjectHideFlags: 0
@@ -1228,9 +1247,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1761110732}
   - {fileID: 1522638009}
   - {fileID: 82505864}
-  - {fileID: 1761110732}
   - {fileID: 1106588614}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1628,11 +1647,11 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 638873127}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -230, y: 150.21}
-  m_SizeDelta: {x: 99.944, y: 24.568}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 99.944, y: 24.567993}
+  m_Pivot: {x: 0, y: 1}
 --- !u!114 &1553667510
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1919,7 +1938,7 @@ Transform:
   m_GameObject: {fileID: 1619382666}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.49, y: -3.3, z: 0}
+  m_LocalPosition: {x: -3.49, y: -3.364, z: 0}
   m_LocalScale: {x: 0.5775, y: 0.37465692, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1999,7 +2018,7 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_Size: {x: 0.5775, y: 0.3746569}
+  m_Size: {x: 1, y: 2}
   m_Direction: 0
 --- !u!1 &1761110731
 GameObject:
@@ -2121,7 +2140,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -2297,11 +2316,11 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 638873127}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 209, y: 150.21518}
-  m_SizeDelta: {x: 160, y: 24.5656}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 160, y: 24.565598}
+  m_Pivot: {x: 1, y: 1}
 --- !u!114 &1928615115
 MonoBehaviour:
   m_ObjectHideFlags: 0
