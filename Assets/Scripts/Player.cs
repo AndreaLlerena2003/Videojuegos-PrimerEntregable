@@ -27,6 +27,9 @@ public class Player : MonoBehaviour
     // Vidas del jugador
     public int vidas = 5; // Inicialmente tiene 3 vidas
 
+    // Disparo 
+    private Shooting shootingScript;
+
     // Referencia al panel de Game Over
     public GameObject gameOverPanel;
     public UnityEngine.Quaternion originalRotation;
@@ -48,12 +51,15 @@ public class Player : MonoBehaviour
         {
             trailRenderer.enabled = false;
         }
+        // Obtiene el componente de disparo
+        shootingScript = GetComponent<Shooting>();
 
         gameOverPanel.SetActive(false);
     }
 
     void Update()
     {
+
         //obtiene la entrada del jugador para los ejes horizontales y verticales
         float moveX = Input.GetAxis("Horizontal");
         float moveY = Input.GetAxis("Vertical");
@@ -61,7 +67,7 @@ public class Player : MonoBehaviour
         // Se crea vector basado en la entrada del jugador --> y se normaliza (asi magnitud uno)
         moveDirection = new Vector2(moveX, moveY).normalized;
 
-   
+        
         // Detectar doble pulsación para dash en el eje horizontal
         if (Input.GetButtonDown("Horizontal"))
         {
@@ -192,7 +198,9 @@ public class Player : MonoBehaviour
         float originalMoveSpeed = moveSpeed;
         float originalDashSpeed = dashSpeed;
         moveSpeed = 0f; 
-        dashSpeed = 0f; 
+        dashSpeed = 0f;
+        // Deshabilita el disparo
+        shootingScript.SetCanShoot(false);
         yield return new WaitForSeconds(duracion);
         foreach (GameObject enemigo in enemigos)
         {
@@ -203,6 +211,8 @@ public class Player : MonoBehaviour
         }
         moveSpeed = originalMoveSpeed;
         dashSpeed = originalDashSpeed;
+        // Habilita el disparo
+        shootingScript.SetCanShoot(true);
     }
     // Mostrar el contador de vidas en la pantalla con GUI
     /*void OnGUI()
