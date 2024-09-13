@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
 
     public Text enemyCountText; // Referencia al componente de texto en la UI para mostrar el conteo
     public Text liveCountText; // Son las vidas del jugador
+    public Text dashCooldownText; // Cuenta el tiempo que falta para que el timer este libre
     private int enemyCount = 0; // Contador de enemigos
     public Player player;
     void Awake()
@@ -32,6 +33,21 @@ public class GameManager : MonoBehaviour
             UpdateLivesCount(player.vidas);
         }
         UpdateEnemyCountText();
+        UpdateDashCooldownText(player.dashCooldown);
+    }
+    public void UpdateDashCooldownText(float cooldown)
+    {
+        if (dashCooldownText != null)
+        {
+            if (cooldown > 0)
+            {
+                dashCooldownText.text = "Dash disponible en: " + cooldown.ToString("F1");
+            }
+            else
+            {
+                dashCooldownText.text = "Dash listo!";
+            }
+        }
     }
 
     public void UpdateLivesCount(int lives)
