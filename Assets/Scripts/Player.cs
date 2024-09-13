@@ -20,6 +20,8 @@ public class Player : MonoBehaviour
     private float halfWidth; // calculamos ancho y altura para manejar q no salga de la camara
     private float halfHeight;
     private float dashTimeLeft = 0f; // Tiempo restante del dash
+    public float dashCooldown = 5f; // Tiempo de espera entre dashes
+    private float currentDashCooldown = 0f; // Tiempo actual de cooldown
     private Vector2 dashDirection; // Dirección del dash
     private float lastHorizontalInputTime = -1f; // Tiempo de la última pulsación horizontal
     private float lastVerticalInputTime = -1f; // Tiempo de la última pulsación vertical
@@ -59,6 +61,15 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        // Actualizar el cooldown del dash
+        if (currentDashCooldown > 0)
+        {
+            currentDashCooldown -= Time.deltaTime;
+            if (currentDashCooldown < 0) currentDashCooldown = 0;
+
+            // Actualizar el texto del cooldown en el GameManager
+            GameManager.Instance.UpdateDashCooldownText(currentDashCooldown);
+        }
 
         //obtiene la entrada del jugador para los ejes horizontales y verticales
         float moveX = Input.GetAxis("Horizontal");
@@ -71,7 +82,7 @@ public class Player : MonoBehaviour
         // Detectar doble pulsación para dash en el eje horizontal
         if (Input.GetButtonDown("Horizontal"))
         {
-            if (Time.time - lastHorizontalInputTime < doubleTapTime)
+            if ((Time.time - lastHorizontalInputTime < doubleTapTime) && currentDashCooldown <= 0)
             {
                 // Asegúrate de que el dash no sea en la dirección opuesta al movimiento actual
                 // Se hace un producto vector con el vector unitario del movimiento del dash y el movimiento actual
@@ -82,6 +93,7 @@ public class Player : MonoBehaviour
                 {
                     dashDirection = new Vector2(moveX, 0).normalized;
                     dashTimeLeft = dashDuration;
+                    currentDashCooldown = dashCooldown;
                 }
             }
             lastHorizontalInputTime = Time.time;
@@ -90,7 +102,7 @@ public class Player : MonoBehaviour
         // Detectar doble pulsación para dash en el eje vertical
         if (Input.GetButtonDown("Vertical"))
         {
-            if (Time.time - lastVerticalInputTime < doubleTapTime)
+            if ((Time.time - lastVerticalInputTime < doubleTapTime) && currentDashCooldown <= 0)
             {
                 // Se hace un producto vector con el vector unitario del movimiento del dash y el movimiento actual
                 // Si es 1, son iguales. Misma direccion
@@ -100,6 +112,7 @@ public class Player : MonoBehaviour
                 {
                     dashDirection = new Vector2(0, moveY).normalized;
                     dashTimeLeft = dashDuration;
+                    currentDashCooldown = dashCooldown;
                 }
             }
             lastVerticalInputTime = Time.time;
@@ -214,10 +227,4 @@ public class Player : MonoBehaviour
         // Habilita el disparo
         shootingScript.SetCanShoot(true);
     }
-    // Mostrar el contador de vidas en la pantalla con GUI
-    /*void OnGUI()
-    {
-        // Mostrar las vidas restantes en la esquina superior izquierda
-        GUI.Label(new Rect(10, 10, 100, 20), "Vidas: " + vidas);
-    }*/
 }
