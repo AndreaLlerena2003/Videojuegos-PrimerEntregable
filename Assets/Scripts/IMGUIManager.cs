@@ -11,13 +11,16 @@ public class IMGUIManager : MonoBehaviour
     public Explosion ExplosionTemplate;
     
     public string playerSpeed = "5";
-    public string livesCounter = "5";
+    public string dashSpeed = "10";
+    public string dashDuration ="0.2";
+    public string livesCounter ="5";
     public string spawnInterval = "2";
     public string rotationSpeed = "20";
     public string explosionSpeed = "5";
     public string explosionRadius = "0.5";
     public string explosionDuration = "2";
   
+
 
     void Update()
     {
@@ -60,42 +63,102 @@ public class IMGUIManager : MonoBehaviour
             rotationSpeed = GUILayout.TextField(rotationSpeed, GUILayout.Width(80));
             GUILayout.EndHorizontal();
 
+            // Dash speed
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("Dash speed", GUILayout.Width(100));
+            GUILayout.FlexibleSpace();
+            dashSpeed = GUILayout.TextField(dashSpeed, GUILayout.Width(80));
+            GUILayout.EndHorizontal();
+
+            // Dash duration
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("Dash duration", GUILayout.Width(100));
+            GUILayout.FlexibleSpace();
+            dashDuration = GUILayout.TextField(dashDuration, GUILayout.Width(80));
+            GUILayout.EndHorizontal();
+
             GUILayout.EndVertical();   
             GUILayout.EndArea();
 
+            if (dashDuration != "")
+            {
+                if (float.TryParse(dashDuration, out float parsedDashDuration))
+                {
+                    Player.dashDuration = parsedDashDuration;
+                }
+            }
+
+            if (dashSpeed != "")
+            {
+                if (float.TryParse(dashSpeed, out float parsedDashSpeed))
+                {
+                    Player.dashSpeed = parsedDashSpeed;
+                }
+            }
+
             if (playerSpeed != "")
             {
-                Player.moveSpeed = float.Parse(playerSpeed);
+                if (float.TryParse(playerSpeed, out float parsedPlayerSpeed))
+                {
+                    Player.moveSpeed = parsedPlayerSpeed;
+                }
+                
             }
 
             if (livesCounter != "")
             {
-                Player.vidas = int.Parse(livesCounter);
+                if (int.TryParse(livesCounter, out int parsedLivesCounter))
+                {
+                    Player.vidas = parsedLivesCounter;
+                }
+
             }
 
             if (spawnInterval != "")
             {
-                EnemySpawner.spawnInterval = float.Parse(spawnInterval);
+                if (float.TryParse(spawnInterval, out float parsedSpawnInterval))
+                {
+                    EnemySpawner.spawnInterval = parsedSpawnInterval;
+                }
+                //EnemySpawner.spawnInterval = float.Parse(spawnInterval);
             }
             if (rotationSpeed != "")
             {
-                EnemySpawner.rotationSpeed = float.Parse(rotationSpeed);
-                EnemySpawner.UpdateAllEnemyWithTagConSpeed();
+                if (float.TryParse(rotationSpeed, out float parsedRotationSpeed))
+                {
+                    EnemySpawner.rotationSpeed = parsedRotationSpeed;
+                    EnemySpawner.UpdateAllEnemyWithTagConSpeed();
+                }
+                //EnemySpawner.rotationSpeed = float.Parse(rotationSpeed);
+                //EnemySpawner.UpdateAllEnemyWithTagConSpeed();
             }
 
             if (explosionSpeed != "")
             {
-                ExplosionTemplate.ExplosionSpeed = float.Parse(explosionSpeed);
+                if (float.TryParse(explosionSpeed, out float parsedExplosionSpeed))
+                {
+                    ExplosionTemplate.ExplosionSpeed = parsedExplosionSpeed;
+
+                }
             }
 
             if (explosionDuration != "")
             {
-                ExplosionTemplate.ExplosionDuration = float.Parse(explosionDuration);
+                if (float.TryParse(explosionDuration, out float parsedExplosionDuration))
+                {
+                    ExplosionTemplate.ExplosionDuration = parsedExplosionDuration;
+
+                }
+
             }
 
             if (explosionRadius != "")
             {
-                ExplosionTemplate.ExplosionRadius = float.Parse(explosionRadius);
+                if (float.TryParse(explosionRadius, out float parsedExplosionRadius))
+                {
+                    ExplosionTemplate.ExplosionRadius = parsedExplosionRadius;
+
+                }
             }
         }
 
