@@ -9,8 +9,11 @@ public class GameManager : MonoBehaviour
     public Text enemyCountText; // Referencia al componente de texto en la UI para mostrar el conteo
     public Text liveCountText; // Son las vidas del jugador
     public Text dashCooldownText; // Cuenta el tiempo que falta para que el timer este libre
+    private float timeCounter;
+    public Text timeCounterText; // Cuenta el tiempo
     private int enemyCount = 0; // Contador de enemigos
     public Player player;
+    public bool gameOverPanel = false;
     void Awake()
     {
         // Implementar Singleton
@@ -33,7 +36,26 @@ public class GameManager : MonoBehaviour
             UpdateLivesCount(player.vidas);
         }
         UpdateEnemyCountText();
-        UpdateDashCooldownText(player.dashCooldown);
+        UpdateDashCooldownText(player.currentDashCooldown);
+        UpdateTimeCounter();
+    }
+    void Update()
+    {
+        if (!gameOverPanel)
+        {
+            UpdateTimeCounter();
+        }
+        
+    }
+
+    public void SetGameOverPanelStatus(bool status)
+    {
+        gameOverPanel = status;
+    }
+    public void UpdateTimeCounter()
+    {
+        timeCounter += Time.deltaTime;
+        timeCounterText.text = "Time: " + timeCounter.ToString("F3");
     }
     public void UpdateDashCooldownText(float cooldown)
     {
@@ -55,6 +77,10 @@ public class GameManager : MonoBehaviour
         if(lives> 0)
         {
             liveCountText.text = "Vidas: " + lives;
+        }
+        else
+        {
+            liveCountText.text = "Moriste pesh";
         }
     }
     public void IncrementEnemyCount()

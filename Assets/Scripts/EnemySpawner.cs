@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
@@ -7,7 +8,7 @@ public class EnemySpawner : MonoBehaviour
     public List<EnemyType> enemyTypes; // Lista de tipos de enemigos
     public float spawnInterval = 2f; // Intervalo de aparici�n
     private Camera cam; // C�mara principal
-
+    public bool canSpawn=true;
     void Start()
     {
         cam = Camera.main; // Obt�n la c�mara principal
@@ -16,7 +17,7 @@ public class EnemySpawner : MonoBehaviour
 
     IEnumerator SpawnEnemies()
     {
-        while (true)
+        while (canSpawn)
         {
             SpawnEnemy(); // Genera un enemigo
             yield return new WaitForSeconds(spawnInterval); // Espera antes de generar el siguiente enemigo
@@ -42,12 +43,14 @@ public class EnemySpawner : MonoBehaviour
 
         if (IsPositionOnScreen(spawnPosition, widthInViewport, heightInViewport))
         {
+
             GameObject newEnemy = CreateEnemy(selectedEnemyType.enemyObject, spawnPosition);
             newEnemy.GetComponent<SpriteRenderer>().color = GetRandomColor();
 
             EnemyMovement movement = newEnemy.AddComponent<EnemyMovement>();
             Debug.Log("Speed: " + selectedEnemyType.speed);
             movement.speed = selectedEnemyType.speed;
+     
         }
     }
 
@@ -60,7 +63,6 @@ public class EnemySpawner : MonoBehaviour
         spriteRenderer.sortingOrder = 1;
         enemy.transform.position = position;
         enemy.transform.localScale = baseObject.transform.localScale;
-
         Rigidbody2D rb = baseObject.GetComponent<Rigidbody2D>();
         if (rb != null)
         {
@@ -93,6 +95,8 @@ public class EnemySpawner : MonoBehaviour
                 polygonCollider.points = basePolygonCollider.points;
                 polygonCollider.offset = basePolygonCollider.offset;
             }
+
+        
         }
         
         return enemy;
@@ -125,4 +129,12 @@ public class EnemySpawner : MonoBehaviour
         return new Color(UnityEngine.Random.value, UnityEngine.Random.value, UnityEngine.Random.value);
     }
 
+    public void SetSpawnInterval(float interval)
+    {
+        spawnInterval = interval;
+    }
+    public void SetCanSpawn(bool spawn)
+    {
+        canSpawn = spawn;
+    }
 }

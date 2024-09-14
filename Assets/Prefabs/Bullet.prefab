@@ -128,6 +128,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   points: 10
   gameManager: {fileID: 0}
+  ExplosionTemplate: {fileID: 0}
 --- !u!68 &6280539514574133209
 EdgeCollider2D:
   m_ObjectHideFlags: 0

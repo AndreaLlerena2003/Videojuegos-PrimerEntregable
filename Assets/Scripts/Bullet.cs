@@ -6,6 +6,7 @@ public class Bullet : MonoBehaviour
 {
     public int points = 10;
     public GameManager gameManager;
+
     void Update()
     {
         //comprobamos si la bala ya no es visible en la pantalla
@@ -14,7 +15,7 @@ public class Bullet : MonoBehaviour
             Destroy(gameObject); //si no esta, la destruimos
         }
     }
-    void OnCollisionEnter2D(Collision2D collision)
+    /*void OnCollisionEnter2D(Collision2D collision)
     {
         // Verificar si la bala ha chocado con un enemigo
         if (collision.gameObject.CompareTag("Enemigo"))
@@ -36,7 +37,7 @@ public class Bullet : MonoBehaviour
             // Si la bala colisiona con algo que no sea un enemigo, solo destrúyela
             Destroy(gameObject);
         }
-    }
+    }*/
     bool IsVisibleOnScreen()
     {
         //obtenemos la posición del objeto desde coordenadas del mundo a coordenadas de la pantalla

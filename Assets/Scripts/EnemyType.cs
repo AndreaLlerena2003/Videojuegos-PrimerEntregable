@@ -10,15 +10,16 @@ public class EnemyType
 {
     public string name;
     public float speed;
+    public Explosion explotion;
     public GameObject enemyObject; //aqui le mandaremos los objetos q tendra que duplicar el Spawner
-    public GameObject explotion;
 
     //constructor para inicializar los valores del tipo de enemigo
-    public EnemyType(string name, float speed, GameObject enemyObject)
+    public EnemyType(string name, float speed, GameObject enemyObject, Explosion ExplosionTemplate)
     {
         this.name = name;
         this.speed = speed;
         this.enemyObject = enemyObject;
+        this.explotion = ExplosionTemplate;
     }
 
     /*void explotionAnimation()

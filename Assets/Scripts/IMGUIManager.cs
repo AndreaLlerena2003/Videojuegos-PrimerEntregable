@@ -6,15 +6,18 @@ public class IMGUIManager : MonoBehaviour
 {
     public bool isShown = false;
 
+    public Player Player;
+    public EnemySpawner EnemySpawner;
+    public Explosion ExplosionTemplate;
+    
     public string playerSpeed = "5";
     public string livesCounter = "5";
-    public string spawnInterval = "999";
+    public string spawnInterval = "2";
     public string rotationSpeed = "20";
-    public string explosionSpeed = "0";
-    public string explosionRadius = "0";
-    public string explosionDuration = "0";
+    public string explosionSpeed = "5";
+    public string explosionRadius = "0.5";
+    public string explosionDuration = "2";
 
-    public Player Player;
 
     void Update()
     {
@@ -62,7 +65,32 @@ public class IMGUIManager : MonoBehaviour
 
             if (playerSpeed != "")
             {
-                Player.moveSpeed = int.Parse(playerSpeed);
+                Player.moveSpeed = float.Parse(playerSpeed);
+            }
+
+            if (livesCounter != "")
+            {
+                Player.vidas = int.Parse(livesCounter);
+            }
+
+            if (spawnInterval != "")
+            {
+                EnemySpawner.spawnInterval = float.Parse(spawnInterval);
+            }
+
+            if (explosionSpeed != "")
+            {
+                ExplosionTemplate.ExplosionSpeed = float.Parse(explosionSpeed);
+            }
+
+            if (explosionDuration != "")
+            {
+                ExplosionTemplate.ExplosionDuration = float.Parse(explosionDuration);
+            }
+
+            if (explosionRadius != "")
+            {
+                ExplosionTemplate.ExplosionRadius = float.Parse(explosionRadius);
             }
         }
 

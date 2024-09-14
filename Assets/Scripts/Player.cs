@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
 {
     private TrailRenderer trailRenderer; // Referencia al TrailRenderer
 
-
+    public Camera camera;
     public float moveSpeed = 5f; // velocidad de movimiento del jugador
     public float dashSpeed = 10f; // Velocidad del dash
     public float dashDuration = 0.2f; // Duración del dash
@@ -21,11 +21,12 @@ public class Player : MonoBehaviour
     private float halfHeight;
     private float dashTimeLeft = 0f; // Tiempo restante del dash
     public float dashCooldown = 5f; // Tiempo de espera entre dashes
-    private float currentDashCooldown = 0f; // Tiempo actual de cooldown
+    public float currentDashCooldown = 0f; // Tiempo actual de cooldown
     private Vector2 dashDirection; // Dirección del dash
     private float lastHorizontalInputTime = -1f; // Tiempo de la última pulsación horizontal
     private float lastVerticalInputTime = -1f; // Tiempo de la última pulsación vertical
-
+    public Explosion ExplosionTemplate;
+    public EnemySpawner enemySpawner;
     // Vidas del jugador
     public int vidas = 5; // Inicialmente tiene 3 vidas
 
@@ -168,22 +169,49 @@ public class Player : MonoBehaviour
         {
             // Restar una vida
             vidas--;
-            //agregar congelamiento de enemigos
-            //enemy movement y enemu spawner
-
-            StartCoroutine(CongelarEnemigosYJugador(5f));
             // Actualiza el contador de vidas
             GameManager.Instance.UpdateLivesCount(vidas);
+            //agregar congelamiento de enemigos
+            // Llamar al método para destruir el enemigo
+            Explosion newExplosion = Instantiate(
+                ExplosionTemplate,
+                transform.position,
+                Quaternion.identity
+            );
+            newExplosion.Explode(Color.white);
+            Destroy(collision.gameObject);
+            //enemy movement y enemu spawner
+            
+            StartCoroutine(CongelarEnemigosYJugador(5f));
+            
 
             // Si las vidas llegan a 0, el jugador pierde
             if (vidas <= 0)
             {
+                GameManager.Instance.UpdateLivesCount(0);
                 // Lógica de derrota (puedes agregar efectos, sonidos, etc.)
                 Debug.Log("Has perdido todas las vidas.");
 
                 if (gameOverPanel != null)
                 {
+                    enemySpawner.SetCanSpawn(false);
+                    // Consigo todos los enemigos
+                    List<GameObject> enemigos = new List<GameObject>(GameObject.FindGameObjectsWithTag("Enemigo"));
+                    // Consigo los movimientos
+                    foreach (GameObject enemigo in enemigos)
+                    {
+                        // Intenta de si el enemigo existe traer su movimiento para detenerlo
+                        if (enemigo != null)
+                        {
+                            Destroy(enemigo);
+                        }
+                    }
+                    GameManager.Instance.SetGameOverPanelStatus(true);
+                    camera.backgroundColor = Color.black;
                     gameOverPanel.SetActive(true); // Activar el panel de Game Over
+                    
+                    
+
                 }
                 /// PANTALLA DE MUERTE
                 Destroy(gameObject);
@@ -199,32 +227,43 @@ public class Player : MonoBehaviour
     }
     private IEnumerator CongelarEnemigosYJugador(float duracion)
     {
-       
-        GameObject[] enemigos = GameObject.FindGameObjectsWithTag("Enemigo");
+        // Consigo todos los enemigos
+        List<GameObject> enemigos = new List<GameObject>(GameObject.FindGameObjectsWithTag("Enemigo"));
+        // Consigo los movimientos
+        List<EnemyMovement> movimientosEnemigos = new List<EnemyMovement>();
+
+        // Desactivar movimiento de enemigos
         foreach (GameObject enemigo in enemigos)
         {
-            if (enemigo.TryGetComponent<EnemyMovement>(out var movimiento))
+            // Intenta de si el enemigo existe traer su movimiento para detenerlo
+            if (enemigo != null && enemigo.TryGetComponent<EnemyMovement>(out var movimiento))
             {
-                movimiento.enabled = false; 
+                movimiento.enabled = false;
+                movimientosEnemigos.Add(movimiento);
             }
         }
+        /*
+        // Desactivar movimiento y disparo del jugador
         float originalMoveSpeed = moveSpeed;
         float originalDashSpeed = dashSpeed;
-        moveSpeed = 0f; 
+        moveSpeed = 0f;
         dashSpeed = 0f;
-        // Deshabilita el disparo
-        shootingScript.SetCanShoot(false);
+        shootingScript.SetCanShoot(false);*/
+
         yield return new WaitForSeconds(duracion);
-        foreach (GameObject enemigo in enemigos)
+
+        // Reactivar movimiento de enemigos que aún existen
+        foreach (EnemyMovement movimiento in movimientosEnemigos)
         {
-            if (enemigo.TryGetComponent<EnemyMovement>(out var movimiento))
+            if (movimiento != null && movimiento.gameObject != null)
             {
-                movimiento.enabled = true; 
+                movimiento.enabled = true;
             }
         }
+        /*
+        // Reactivar movimiento y disparo del jugador
         moveSpeed = originalMoveSpeed;
         dashSpeed = originalDashSpeed;
-        // Habilita el disparo
-        shootingScript.SetCanShoot(true);
+        shootingScript.SetCanShoot(true);*/
     }
 }
