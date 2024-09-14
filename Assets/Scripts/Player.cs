@@ -231,7 +231,7 @@ public class Player : MonoBehaviour
         List<GameObject> enemigos = new List<GameObject>(GameObject.FindGameObjectsWithTag("Enemigo"));
         // Consigo los movimientos
         List<EnemyMovement> movimientosEnemigos = new List<EnemyMovement>();
-
+       
         // Desactivar movimiento de enemigos
         foreach (GameObject enemigo in enemigos)
         {
@@ -260,6 +260,7 @@ public class Player : MonoBehaviour
                 movimiento.enabled = true;
             }
         }
+       
         /*
         // Reactivar movimiento y disparo del jugador
         moveSpeed = originalMoveSpeed;

@@ -20,6 +20,7 @@ public class EnemyType
         this.speed = speed;
         this.enemyObject = enemyObject;
         this.explotion = ExplosionTemplate;
+   
     }
 
     /*void explotionAnimation()

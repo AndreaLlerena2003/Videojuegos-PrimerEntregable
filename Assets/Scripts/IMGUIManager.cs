@@ -17,7 +17,7 @@ public class IMGUIManager : MonoBehaviour
     public string explosionSpeed = "5";
     public string explosionRadius = "0.5";
     public string explosionDuration = "2";
-
+  
 
     void Update()
     {
@@ -76,6 +76,11 @@ public class IMGUIManager : MonoBehaviour
             if (spawnInterval != "")
             {
                 EnemySpawner.spawnInterval = float.Parse(spawnInterval);
+            }
+            if (rotationSpeed != "")
+            {
+                EnemySpawner.rotationSpeed = float.Parse(rotationSpeed);
+                EnemySpawner.UpdateAllEnemyWithTagConSpeed();
             }
 
             if (explosionSpeed != "")

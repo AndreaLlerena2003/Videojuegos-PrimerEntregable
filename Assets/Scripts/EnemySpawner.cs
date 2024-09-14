@@ -7,8 +7,9 @@ public class EnemySpawner : MonoBehaviour
 {
     public List<EnemyType> enemyTypes; // Lista de tipos de enemigos
     public float spawnInterval = 2f; // Intervalo de aparici�n
-    private Camera cam; // C�mara principal
+    private Camera cam; // C�mara principal 
     public bool canSpawn=true;
+    public float rotationSpeed;
     void Start()
     {
         cam = Camera.main; // Obt�n la c�mara principal
@@ -50,6 +51,7 @@ public class EnemySpawner : MonoBehaviour
             EnemyMovement movement = newEnemy.AddComponent<EnemyMovement>();
             Debug.Log("Speed: " + selectedEnemyType.speed);
             movement.speed = selectedEnemyType.speed;
+            movement.rotationSpeed = rotationSpeed;
      
         }
     }
@@ -136,5 +138,15 @@ public class EnemySpawner : MonoBehaviour
     public void SetCanSpawn(bool spawn)
     {
         canSpawn = spawn;
+    }
+
+    public void UpdateAllEnemyWithTagConSpeed() {
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemigo");
+        foreach (GameObject enemy in enemies) {
+            EnemyMovement enemyController = enemy.GetComponent<EnemyMovement>();
+            if (enemyController != null) {
+                enemyController.rotationSpeed = rotationSpeed;
+            }
+        }
     }
 }
