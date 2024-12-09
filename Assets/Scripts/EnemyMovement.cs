@@ -3,60 +3,69 @@ using UnityEngine;
 public class EnemyMovement : MonoBehaviour
 {
     public float speed; //velocidad de movimiento del enemigo
-    private Vector2 direction; //direcci髇
-    private Collider2D collider2D; //collider q tiene el enemigo
-    private float colliderWidth; //ancho y alto de collider para manejo de rebote en bordes
-    private float colliderHeight;
+    [SerializeField]
+    public float rotationSpeed = 1f;
+
+    private Vector2 direction; //direcci贸n
+    //private Collider2D collider2D; //collider q tiene el enemigo
+
 
     void Start()
     {
-        // se inicializa la direcci髇 con un vector aleatorio normalizado dentro de un c韗culo unitario
+        // se inicializa la direcci贸n con un vector aleatorio normalizado dentro de un c铆rculo unitario
         direction = Random.insideUnitCircle.normalized;
-
-        //obtenemos el collider del objeto
-        collider2D = GetComponent<Collider2D>();
-        if (collider2D != null)
-        {
-            colliderWidth = collider2D.bounds.size.x;
-            colliderHeight = collider2D.bounds.size.y;
-        }
     }
 
     void Update()
     {
-        //mover el enemigo en la direcci髇 actual multiplicada por la velocidad y el tiempo transcurrido desde el 鷏timo frame
-        transform.Translate(direction * speed * Time.deltaTime);
+        //mover el enemigo en la direcci贸n actual multiplicada por la velocidad y el tiempo transcurrido desde el 煤ltimo frame
+        // Calcular el nuevo desplazamiento
+        Vector3 movement = new Vector3(direction.x, direction.y, 0) * speed * Time.deltaTime;
 
-        // ver si el enemigo ha alcanzado los l韒ites de la pantalla
-        CheckBounds();
+        // Actualizar la posici贸n sumando el vector de movimiento
+        transform.position += movement;
+
+        // Rota el enemigo
+        transform.rotation *= Quaternion.Euler(0f, 0f, rotationSpeed);
+ 
     }
 
-    void CheckBounds()
+
+    // Rebota realista con todo
+    /*void OnCollisionEnter2D(Collision2D collision)
+    {        
+        // Obtener la normal de la colisi贸n
+        Vector2 normal = collision.contacts[0].normal;
+
+        // Reflejar la direcci贸n actual del movimiento en base a la normal de la colisi贸n
+        direction = Vector2.Reflect(direction, normal);
+        
+        
+    }*/
+
+    // Rebota realista con las paredes, pero se invierte con lo dem谩s
+    /*void OnCollisionEnter2D(Collision2D collision)
     {
-        //  --> convertir la posici髇 del enemigo de coordenadas de mundo a coordenadas de pantalla (Viewport)
-        Vector3 pos = Camera.main.WorldToViewportPoint(transform.position);
-
-        // calcular el tama駉 del collider en t閞minos de Viewport
-        float widthInViewport = colliderWidth / Camera.main.orthographicSize / Camera.main.aspect;
-        float heightInViewport = colliderHeight / Camera.main.orthographicSize;
-
-        //  Verificar si el enemigo ha alcanzado los l韒ites horizontales de la pantalla (incluyendo el tama駉 del collider)
-        if (pos.x <= widthInViewport / 2f || pos.x >= 1 - widthInViewport / 2f)
+        // Verificar si el objeto con el que se colisiona es una pared
+        if (collision.gameObject.CompareTag("Limit"))
         {
-            //invierte direccion para simular rebote
-            direction.x = -direction.x;
-        }
+            // Obtener la normal de la colisi贸n
+            Vector2 normal = collision.contacts[0].normal;
 
-        //lo mismo pero con los limites verticales
-        if (pos.y <= heightInViewport / 2f || pos.y >= 1 - heightInViewport / 2f)
+            // Reflejar la direcci贸n actual del movimiento en base a la normal de la colisi贸n
+            direction = Vector2.Reflect(direction, normal);
+        }
+        else
         {
-            direction.y = -direction.y;
+            // Invertir la direcci贸n si se colisiona con otro objeto no etiquetado como "Limit"
+            direction = -direction;
         }
-    }
+    }*/
 
+    // Invierte la direcci贸n cuando rebota choca con alguien m谩s
     void OnCollisionEnter2D(Collision2D collision)
     {
-        // invertir la direcci髇 al colisionar con otro objeto --> para esos casos q choque con otro enemigo y asi no le de lag
+        // invertir la direcci贸n al colisionar con otro objeto --> para esos casos q choque con otro enemigo y asi no le de lag
         direction = -direction; // -> rebote
     }
 }
